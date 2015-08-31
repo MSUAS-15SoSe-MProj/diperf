@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
         make \
         apt-utils \
         git \
-		pkg-config \
+	pkg-config \
         gcc \
         --no-install-recommends && \
         rm -rf /var/lib/apt/lists/*
