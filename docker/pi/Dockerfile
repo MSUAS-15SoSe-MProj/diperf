@@ -19,8 +19,10 @@ RUN apt-get update && apt-get install -y \
         make \
         apt-utils \
         git \
-	pkg-config \
+		pkg-config \
+		libc-dev \
         gcc \
+		nfs-common \
         --no-install-recommends && \
         rm -rf /var/lib/apt/lists/*
 
