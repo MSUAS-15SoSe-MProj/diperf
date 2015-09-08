@@ -1,0 +1,17 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+auto eth0
+
+# dhcp configuration
+
+# static ip configuration
+iface eth0 inet static
+		address 10.0.0.1
+		netmask 255.255.255.0
+
+auto eth1
+iface eth1 inet dhcp
+
+up iptables-restore < /etc/iptables.ipv4.nat
