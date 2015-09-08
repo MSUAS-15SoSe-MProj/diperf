@@ -15,9 +15,11 @@ RUN 	apt-get update && apt-get install -y \
         automake \
         autoconf \
         make \
-	libc-dev \
+	    libc-dev \
         gcc \
-	g++ \
+	    g++ \
+        git \
+        openssh-server \
         --no-install-recommends && \
         rm -rf /var/lib/apt/lists/*
 
@@ -30,6 +32,14 @@ RUN 	wget -qO- http://www.mpich.org/static/downloads/3.1.4/mpich-3.1.4.tar.gz | 
 # Edit PATH
 ENV 	PATH=$MPI_HOME/bin:$PATH
 
+# SSHD
+ADD	    .ssh /root/.ssh	
+RUN	    mkdir /var/run/sshd
+RUN	    sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+CMD	["/usr/sbin/sshd", "-D"]
+
 # cleanup a bit
 RUN apt-get clean
 RUN apt-get purge
+
