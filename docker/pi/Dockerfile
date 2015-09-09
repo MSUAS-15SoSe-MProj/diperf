@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install -y \
         gcc \
 		nfs-common \
 		ca-certificates \
+		vim \
+		iputils-ping \
         --no-install-recommends && \
         rm -rf /var/lib/apt/lists/*
 
@@ -60,8 +62,8 @@ RUN wget -O $HOME/blink.go https://gist.githubusercontent.com/Moddus/bb8600d28f0
 
 CMD ["go", "run", "/home/pi/blink.go"]
 
-#RUN mkdir -p /home/pi/mnt
-#RUN echo "banana-pi:/export/nfs	/home/pi/mnt nfs uid=100,noauto,user 0 0" >> /etc/fstab
+RUN mkdir -p /home/pi/mnt
+RUN echo "banana-pi:/export/nfs	/home/pi/mnt nfs rw,auto,users 0 0" >> /etc/fstab
 
 # cleanup a bit
 RUN apt-get clean
