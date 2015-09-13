@@ -17,6 +17,6 @@ RUN git clone https://github.com/Moddus/pi_gpio_fit.git
 
 WORKDIR pi_gpio_fit
 
-RUN camke . && make
+RUN cmake . && make
 
 # TODO mpirun
