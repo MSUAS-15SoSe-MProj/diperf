@@ -20,6 +20,6 @@ WORKDIR pi_gpio_fit
 RUN cmake . && make
 
 RUN mkdir -p /root/mnt
-RUN echo "10.0.0.1:/export/nfs	/root/mnt nfs rw,auto,users 0 0" >> /etc/fstab
+RUN echo "10.0.0.1:/export/nfs    /home/pi/mnt nfs rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
 
 # TODO mpirun
