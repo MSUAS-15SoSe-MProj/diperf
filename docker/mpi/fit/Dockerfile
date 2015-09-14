@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
 	cmake \
 	g++ \
 	ca-certificates \
+	nfs-common \
 	build-essential \
 	libpthread-stubs0-dev \
 	--no-install-recommends && \
@@ -21,10 +22,8 @@ RUN cmake . && make
 
 RUN mkdir -p /root/mnt
 RUN echo "10.0.0.1:/export/nfs    /root/mnt nfs rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
+RUN mount -a
 
-RUN apt-get update && apt-get install -y \
-	nfs-common \
-	--no-install-recommends && \
-	 rm -rf /var/lib/apt/lists/*
+WORKDIR /root
 
 # TODO mpirun
