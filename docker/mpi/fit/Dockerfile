@@ -27,3 +27,7 @@ RUN mount -a
 WORKDIR /root
 
 # TODO mpirun
+
+# cleanup a bit
+RUN apt-get clean
+RUN apt-get purge
