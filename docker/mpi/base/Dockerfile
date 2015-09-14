@@ -36,6 +36,7 @@ ENV 	PATH=$MPI_HOME/bin:$PATH
 ADD	    .ssh /root/.ssh	
 RUN	    mkdir /var/run/sshd
 RUN	    sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN     chmod -R 700 /root/.ssh && chmod -R 644 /root/.ssh/*.pub
 
 CMD	["/usr/sbin/sshd", "-D"]
 
