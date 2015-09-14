@@ -22,4 +22,9 @@ RUN cmake . && make
 RUN mkdir -p /root/mnt
 RUN echo "10.0.0.1:/export/nfs    /root/mnt nfs rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
 
+RUN apt-get update && apt-get install -y \
+	nfs-common \
+	--no-install-recommends && \
+	 rm -rf /var/lib/apt/lists/*
+
 # TODO mpirun
