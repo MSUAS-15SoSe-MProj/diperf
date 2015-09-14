@@ -63,7 +63,7 @@ RUN wget -O $HOME/blink.go https://gist.githubusercontent.com/Moddus/bb8600d28f0
 CMD ["go", "run", "/home/pi/blink.go"]
 
 RUN mkdir -p /home/pi/mnt
-RUN echo "banana-pi:/export/nfs	/home/pi/mnt nfs rw,auto,users 0 0" >> /etc/fstab
+RUN echo "10.0.0.1:/export/nfs    /home/pi/mnt nfs rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
 
 # cleanup a bit
 RUN apt-get clean
