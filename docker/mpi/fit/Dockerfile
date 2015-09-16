@@ -21,7 +21,7 @@ WORKDIR pi_gpio_fit
 RUN cmake . && make
 
 RUN mkdir -p /root/mnt
-RUN echo "10.0.0.1:/export/nfs    /root/mnt nfs rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
+RUN echo "10.0.0.1:/nfs    /root/mnt nfs4 rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
 RUN mount -a
 
 WORKDIR /root
