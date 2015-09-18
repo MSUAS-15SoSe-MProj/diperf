@@ -50,7 +50,7 @@ RUN     chmod -R 700 /root/.ssh && chmod -R 644 /root/.ssh/*.pub
 ADD     sshd.conf /etc/supervisor/conf.d/sshd.conf
 
 #CMD	["/usr/sbin/sshd", "-D"]
-CMD     ["supervisor", "-c", "/etc/supervisor.conf"]
+CMD     ["supervisord", "-c", "/etc/supervisor.conf"]
 
 # cleanup a bit
 RUN apt-get clean
