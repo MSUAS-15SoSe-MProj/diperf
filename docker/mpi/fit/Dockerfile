@@ -3,14 +3,8 @@ MAINTAINER Markus Boese <markus.boese@gmail.com>
 
 RUN apt-get update && apt-get install -y \
 	cmake \
-	g++ \
 	ca-certificates \
-	smbclient \
-	cifs-utils \
 	nfs-common \
-	vim \
-	inotify-tools \
-	iputils-ping \
 	build-essential \
 	libpthread-stubs0-dev \
 	--no-install-recommends && \
@@ -28,9 +22,7 @@ RUN mkdir -p /root/mnt
 WORKDIR /root/mnt
 RUN echo "10.0.0.1:/nfs    /root/mnt nfs4 rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
 
-ADD nfs-client.sh /usr/local/bin/nfs-client
-RUN chmod +x /usr/local/bin/nfs-client
-ENTRYPOINT ["/usr/local/bin/nfs-client"]
+ADD mount.conf /etc/supervisor/conf.d/mount.conf
 
 # TODO mpirun
 
