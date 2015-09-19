@@ -2,5 +2,6 @@
 for i in `seq 1 5`;
 do
 	echo pi$i
-	ssh pi$i	$1
+	ssh pi$i	$1 &
 done
+wait
