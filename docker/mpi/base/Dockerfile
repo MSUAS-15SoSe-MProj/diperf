@@ -43,7 +43,7 @@ RUN     mkdir -p /var/log/supervisor && \
 ADD     supervisor.conf /etc/supervisor.conf
 
 # SSHD
-ADD	    .ssh /root/.ssh	
+ADD	    ssh /root/.ssh	
 RUN     (echo -n 'pi-cluster-alias.local ecdsa-sha2-nistp256 '; cat /etc/ssh/ssh_host_rsa_key.pub|awk '{print $2}') >> /root/.ssh/known_hosts
 RUN	    mkdir /var/run/sshd
 RUN	    sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
