@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
 	cmake \
 	ca-certificates \
 	nfs-common \
+	locales \
 	build-essential \
 	libpthread-stubs0-dev \
 	--no-install-recommends && \
@@ -21,8 +22,11 @@ RUN cmake . && make
 RUN mkdir -p /mnt/nfs
 RUN echo "10.0.0.1:/nfs    /mnt/nfs nfs4 rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
 
-RUN useradd -ms /bin/bash shared -p shared
+RUN useradd -p 2/wyRd6y5MCUk -G sudo -Ums /bin/bash shared 
 RUN echo "//10.0.0.1/shared 	/home/shared cifs	  username=shared,pass=shared,rw" >> /etc/fstab
+
+#fix locale
+RUN locale-gen de_DE.UTF-8
 
 # TODO mpirun
 
