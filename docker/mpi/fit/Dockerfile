@@ -19,9 +19,10 @@ WORKDIR pi_gpio_fit
 RUN cmake . && make
 
 RUN mkdir -p /mnt/nfs
-RUN echo "//10.0.0.1/root_home /root cifs rw,username=root_smb,password=PiClusterRocks" >> /etc/fstab
 RUN echo "10.0.0.1:/nfs    /mnt/nfs nfs4 rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
 
+RUN useradd -ms /bin/bash shared -p shared
+RUN echo "//10.0.0.1/shared 	/home/shared cifs	  username=shared,pass=shared,rw" >> /etc/fstab
 
 # TODO mpirun
 
