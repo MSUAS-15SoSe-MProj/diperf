@@ -22,7 +22,7 @@ RUN mkdir -p /root/mnt
 WORKDIR /root/mnt
 RUN echo "10.0.0.1:/nfs    /root/mnt nfs4 rsize=8192,wsize=8192,timeo=14,intr" >> /etc/fstab
 
-ADD mount.conf /etc/supervisor/conf.d/mount.conf
+# ADD mount.conf /etc/supervisor/conf.d/mount.conf
 
 # TODO mpirun
 

@@ -51,11 +51,13 @@ RUN     (echo -n 'pi-cluster-alias.local ecdsa-sha2-nistp256 '; cat /etc/ssh/ssh
 RUN	    mkdir /var/run/sshd
 RUN	    sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN     chmod -R 700 /root/.ssh && chmod -R 644 /root/.ssh/*.pub
-ADD     sshd.conf /etc/supervisor/conf.d/sshd.conf      # Start sshd on startup
+#       Add sshd to startup
+ADD     sshd.conf /etc/supervisor/conf.d/sshd.conf
 #       ----------------------------------------------------------------------
 #       Samba config
 #       TODO: mount /home on samba share
-ADD     mount.conf /etc/supervisor/conf.d/mount.conf    # Call mount -a at startup
+#       Call mount -a at startup
+ADD     mount.conf /etc/supervisor/conf.d/mount.conf
 #       ----------------------------------------------------------------------
 
 CMD     ["supervisord", "-c", "/etc/supervisor.conf"]
