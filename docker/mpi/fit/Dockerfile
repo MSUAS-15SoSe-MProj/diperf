@@ -28,6 +28,14 @@ RUN echo "//10.0.0.1/shared 	/home/shared cifs	  username=shared,pass=shared,rw"
 #fix locale
 RUN locale-gen de_DE.UTF-8
 
+# fuck up ssh for root
+WORKDIR /root
+RUN cp -r /home/shared/.ssh .
+WORKDIR .ssh
+RUN rm -f known_hosts
+RUN echo "StrictHostKeyChecking no" >> config
+RUN echo "UserKnownHostsFile=/dev/null" >> config
+
 # TODO mpirun
 
 # cleanup a bit
