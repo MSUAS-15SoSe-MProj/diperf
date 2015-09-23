@@ -30,11 +30,13 @@ RUN locale-gen de_DE.UTF-8
 
 # fuck up ssh for root
 WORKDIR /root
-RUN cp -r /home/shared/.ssh .
+RUN mkdir .ssh
 WORKDIR .ssh
-RUN rm -f known_hosts
-RUN echo "StrictHostKeyChecking no" >> config
-RUN echo "UserKnownHostsFile=/dev/null" >> config
+RUN cp /home/shared/.ssh/pi_root* .
+RUN cp /home/shared/.ssh/authorized_keys . 
+ADD config .
+
+WORKDIR /mnt/nfs
 
 # TODO mpirun
 

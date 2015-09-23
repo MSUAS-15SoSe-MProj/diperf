@@ -1,0 +1,7 @@
+Host pi*
+Hostname %h
+Port 22222
+User root 
+IdentityFile ~/.ssh/pi_root
+StrictHostKeyChecking no
+UserKnownHostsFile=/dev/null
