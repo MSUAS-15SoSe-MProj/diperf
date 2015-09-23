@@ -32,9 +32,7 @@ RUN locale-gen de_DE.UTF-8
 WORKDIR /root
 RUN mkdir .ssh
 WORKDIR .ssh
-RUN cp /home/shared/.ssh/pi_root* .
-RUN cp /home/shared/.ssh/authorized_keys . 
-ADD config .
+ADD ssh .
 
 WORKDIR /mnt/nfs
 
