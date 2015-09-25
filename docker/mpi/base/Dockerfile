@@ -48,6 +48,23 @@ ADD     supervisor.conf /etc/supervisor.conf
 #       SSHD
 RUN	    mkdir /var/run/sshd
 RUN	    sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+ADD     ssh /root/.ssh  
+
+RUN     echo "GlobalKnownHostsFile    /etc/ssh/global_known_hosts \n\
+\n\
+Host            pi*-docker, pi* \n\
+    Hostname        %h \n\
+    Port            22222 \n\
+    IdentityFile    /root/.ssh/id_rsa \n\
+    HostKeyAlias    pi-cluster-alias.local \n\
+    CheckHostIP     no" >> /etc/ssh/ssh_config
+
+RUN     for i in $( ls /etc/ssh/ssh_host*.pub ); do \
+        cat $i|awk '{printf "pi-cluster-alias.local %s %s\n", $1, $2}' >> /etc/ssh/global_known_hosts;\
+        done
+RUN     chmod -R 600 /root/.ssh && chmod -R 644 /root/.ssh/*.pub
+
 #       Add sshd to startup
 ADD     sshd.conf /etc/supervisor/conf.d/sshd.conf
 #       ----------------------------------------------------------------------

@@ -1,6 +1,0 @@
-Host pi*-docker
-Hostname %h
-Port 22222
-User root
-IdentityFile ~/.ssh/pi_root
-HostKeyAlias pi-cluster-alias.local
