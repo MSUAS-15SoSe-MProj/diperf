@@ -37,6 +37,8 @@ RUN 	wget -qO- http://www.mpich.org/static/downloads/3.1.4/mpich-3.1.4.tar.gz | 
 #       Edit PATH
 ENV 	PATH=$MPI_HOME/bin:$PATH
 RUN     echo "export PATH=/usr/local/mpich/bin:\$PATH" >> /etc/profile
+# TODO: Allow max 20 processes per mpi-client. Increase for more
+RUN     echo "export MPIR_CVAR_CH3_PORT_RANGE=40000:40020" >> /etc/profile 
 #       ----------------------------------------------------------------------
 #       Create supervisor directories
 RUN     mkdir -p /var/log/supervisor && \
@@ -56,7 +58,7 @@ RUN     echo "GlobalKnownHostsFile    /etc/ssh/global_known_hosts \n\
 Host            pi*-docker, pi* \n\
     Hostname        %h \n\
     Port            22222 \n\
-    IdentityFile    /root/.ssh/id_rsa \n\
+    IdentityFile    ~/.ssh/id_rsa \n\
     HostKeyAlias    pi-cluster-alias.local \n\
     CheckHostIP     no" >> /etc/ssh/ssh_config
 
