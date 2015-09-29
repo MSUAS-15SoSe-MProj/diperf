@@ -3,6 +3,7 @@ MAINTAINER Mark Bonnekessel <marbon@mailbox.org>
 
 #       Install packages------------------------------------------------------
 RUN 	apt-get update && apt-get install -y \
+        cmake \
         wget && \
         rm -rf /var/lib/apt/lists/*
 
