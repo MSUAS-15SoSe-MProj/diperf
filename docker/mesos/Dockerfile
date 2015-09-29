@@ -18,6 +18,11 @@ RUN apt-get update &&  apt-get install -y \
 	tar \
 	unzip \
 	wget \
+	libsasl2-modules \
+	autotools-dev \
+	automake \
+	zlibc \
+	zlib1g-dev \
 	--no-install-recommends && \
 	rm -rf /var/lib/apt/lists/*
 
