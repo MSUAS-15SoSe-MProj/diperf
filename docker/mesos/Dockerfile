@@ -12,7 +12,7 @@ RUN apt-get update &&  apt-get install -y \
 	libsasl2-dev \
 	maven \
 	libapr1-dev \
-	libsvn-dev 
+	libsvn-dev \ 
 	vim \
 	git \
 	tar \
@@ -32,7 +32,7 @@ RUN unzip 0.23.1.zip
 
 WORKDIR mesos
 RUN ./bootstrap
-mkdir build
+RUN mkdir build
 
 WORKDIR build
 RUN ../configure
