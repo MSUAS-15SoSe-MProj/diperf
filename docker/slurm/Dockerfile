@@ -1,4 +1,4 @@
-F -OM        resin/rpi-raspbian:latest
+FROM        resin/rpi-raspbian:latest
 MAINTAINER  Mark Bonnekessel <marbon@mailbox.org>
 
 #           Install packages---------------------------------------------------
