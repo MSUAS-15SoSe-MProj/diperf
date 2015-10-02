@@ -16,20 +16,23 @@ RUN         apt-get install -y \
             autotools-dev \
             pkg-config \
             python \
-            --no-install-recommends
+            supervisor \
+            gcc \
+            make \
+            --no-install-recommends && \
+            rm -rf /var/lib/apt/lists/*
 
 #           Install torque-----------------------------------------------------
 ENV         SLURM_VERSION slurm-15-08-1-1
 WORKDIR     /tmp
 RUN         wget -qO- https://github.com/SchedMD/slurm/archive/${SLURM_VERSION}.tar.gz | tar xz -C /tmp/
 WORKDIR     /tmp/slurm-${SLURM_VERSION}
-RUN         apt-get install -y gcc
-RUN         apt-get install -y make
 RUN         ./configure && make && make install
 
-
-
-RUN         rm -rf /var/lib/apt/lists/*
+#           Setup supervisor-----------------------------------------------------
+RUN         mkdir -p /var/log/supervisor && \
+            mkdir -p /etc/supervisor/conf.d
+ADD         supervisor.conf /etc/supervisor.conf
 
 #           cleanup a bit---------------------------------------------------------
 RUN         apt-get clean
