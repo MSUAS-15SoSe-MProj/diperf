@@ -22,7 +22,10 @@ RUN         apt-get install -y \
             --no-install-recommends && \
             rm -rf /var/lib/apt/lists/*
 
-#           Install torque-----------------------------------------------------
+#           Create User slurm for Slurm-----------------------------------------
+RUN         useradd -Ums /bin/bash slurm
+
+#           Install Slurm--------------------------------------------------------
 ENV         SLURM_VERSION slurm-15-08-1-1
 WORKDIR     /tmp
 RUN         wget -qO- https://github.com/SchedMD/slurm/archive/${SLURM_VERSION}.tar.gz | tar xz -C /tmp/
