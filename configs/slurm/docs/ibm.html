@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+                        "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="keywords" content="Simple Linux Utility for Resource Management, SLURM, resource management,
+Linux clusters, high-performance computing">
+<meta name="description" content="Simple Linux Utility for Resource Management">
+<title>Simple Linux Utility for Resource Management</title>
+<link href="linuxstyles.css" rel="stylesheet" type="text/css">
+<link href="slurmstyles.css" rel="stylesheet" type="text/css">
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">
+  google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};  var customSearchControl = new google.search.CustomSearchControl(
+      '011890816164765777536:jvrtxrd3f0w', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.SMALL_RESULTSET);
+    customSearchControl.draw('cse');
+  }, true);
+
+function window_check ()
+{
+	obj = document.getElementById('navigation');
+	if ((window.innerWidth>=800) && (window.innerHeight>=700) &&
+	    (screen.width>=800) && (screen.height>=700)) {
+	   obj.style.position = 'fixed';
+	} else {
+	   obj.style.position = 'absolute';
+	}
+}
+
+window.onload = window_check;
+window.onresize = window_check;
+
+</script>
+
+</head>
+
+<body><div id="container"><div id="row">
+
+<div id="navigation">
+<a href="slurm.html"><img class="displayed" src="slurm_logo.png" width="130" usemap="#Map"></a>
+
+<div id="version">Version 15.08</div>
+<p></p>
+<div id="slurmh2">About</div>
+<ul>
+	  <li><a href="overview.html" class="nav">Overview</a></li>
+	  <li><a href="news.html" class="nav">What's New</a></li>
+	  <li><a href="team.html" class="nav">Slurm Team</a></li>
+	  <li><a href="meetings.html" class="nav">Meetings</a></li>
+	  <li><a href="testimonials.html" class="nav">Testimonials</a></li>
+	  <li><a href="disclaimer.html" class="nav">Legal Notices</a></li>
+</ul>
+<div id="slurmh2">Using</div>
+<ul>
+	  <li><a href="tutorials.html" class="nav">Tutorials</a></li>
+	  <li><a href="documentation.html" class="nav">Documentation</a></li>
+	  <li><a href="faq.html" class="nav">FAQ</a></li>
+	  <li><a href="publications.html" class="nav">Publications</a></li>
+</ul>
+<div id="slurmh2">Installing</div>
+<ul>
+	  <li><a href="download.html" class="nav">Download</a></li>
+	  <li><a href="quickstart_admin.html" class="nav">Installation Guide</a></li>
+</ul>
+<div id="slurmh2">Getting Help</div>
+<ul>
+	  <li><a href="http://www.schedmd.com/#services" class="nav">Support</a></li>
+	  <li><a href="mail.html" class="nav">Mailing Lists</a></li>
+	  <li><a href="http://www.schedmd.com/#services" class="nav">Training</a></li>
+	  <li><a href="troubleshoot.html" class="nav">Troubleshooting</a></li>
+</ul>
+<a href="http://www.schedmd.com"><img class="displayed" src="schedmd.png" width="130" usemap="#Map"></a>
+</div>
+
+<div id="content">
+
+<div id="cse"></div>
+
+
+<h1>IBM AIX User and Administrator Guide</h1>
+
+<h2>Overview</h2>
+
+<p>This document describes the unique features of Slurm on the
+IBM AIX computers with a Federation switch.
+Slurm support for AIX has been thoroughly tested, but we
+know of no AIX installations using Slurm after 2008.
+You should be familiar with the Slurm's mode of operation on Linux clusters
+before studying the relatively few differences in IBM system operation
+described in this document.</p>
+
+<h2>User Tools</h2>
+
+<p>The normal set of Slurm user tools: srun, scancel, sinfo, smap, squeue and scontrol
+provide all of the expected services except support for job steps.
+While the srun command will launch the tasks of a job step on an IBM
+AIX system, it does not support use of the Federation switch or IBM's MPI.
+Job steps should be launched using IBM's poe command.
+This architecture insures proper operation of all IBM tools.</p>
+
+<p>You will use srun to submit a batch script to Slurm.
+This script should contain one or more invocations of poe to launch
+the tasks.
+If you want to run a job interactively, just execute poe directly.
+Poe will recognize that it lacks a Slurm job allocation (the SLURM_JOB_ID
+environment variable will be missing) and create the Slurm allocation
+prior to launching tasks.</p>
+
+<p>Each poe invocation (or Slurm job step) can have it's own network
+specification.
+For example one poe may use IP mode communications and the next use
+User Space (US) mode communications.
+This enhancement to normal poe functionality may be accomplished by
+setting the SLURM_NETWORK environment variable.
+The format of SLURM_NETWORK is "network.[protocol],[type],[usage],[mode]".
+For example "network.mpi,en0,shared,ip".
+See LoadLeveler documentation for more details.</p>
+
+<h2>Checkpoint</h2>
+
+<p>Slurm supports checkpoint via poe.
+In order to enable checkpoint, the shell executing the poe command must
+itself be initiated with the environment variable <b>CHECKPOINT=yes</b>.
+One file is written for each node on which the job is executing, plus
+another for the script executing poe.a
+By default, the checkpoint files will be written to the current working
+directory of the job.
+Names and locations of these files can be controlled using the
+environment variables <b>MP_CKPTFILE</b> and <b>MP_CKPTDIR</b>.
+Use the squeue command to identify the job and job step of interest.
+To initiate a checkpoint in which the job step will continue execution,
+use the command: <br>
+<b>scontrol check create <i>job_id.step_id</i></b><br>
+To initiate a checkpoint in which the job step will terminate afterwards,
+use the command: <br>
+<b>scontrol check vacate <i>job_id.step_id</i></b></p>
+
+<h2>System Administration</h2>
+
+<p>Three unique components are required to use Slurm on an IBM system.</p>
+<ol>
+<li>The Federation switch plugin is required.
+This component is packaged with the Slurm distribution.</li>
+<li>There is a process tracking kernel extension required.
+This is used to insure that all processes associated with a job
+are tracked.
+Slurm normally uses session ID and process group ID on Linux systems,
+but these mechanisms can not prevent user processes from establishing
+their own session or process group and thus "escape" from Slurm
+tracking.
+This kernel extension is not packaged with Slurm, but is available
+upon request.</li>
+<li>The final component is a library that accepts poe library calls
+and performs actions in Slurm to satisfy these requests, such
+as launching tasks.
+This library is based upon IBM Confidential information and is
+not at this time available for distribution.
+Interested parties are welcome to pursue the possible distribution
+of this library with IBM and Slurm developers.</li>
+</ol>
+<p>Until this last issue is resolved, use of Slurm on an IBM AIX system
+should not be viewed as a supported configuration (at least outside
+of LLNL, which established a contract with IBM for this purpose).</p>
+
+<p class="footer"><a href="#top">top</a></p>
+
+<p style="text-align:center;">Last modified 5 October 2012</p>
+
+</div> <!-- closes "row" -->
+</div> <!-- closes "content" -->
+<div id="row">
+<div id="footer">
+<div id="left">&nbsp;&nbsp;<a href="disclaimer.html" target="_blank" class="privacy">Legal Notices</a></div>
+<div id="right"><span class="ucrlnum"></span></div>
+</div>
+
+<div id="footer2">
+<div style="clear:both;"></div>
+</div>
+</div> <!-- closes "row" -->
+
+</div> <!-- closes "container" -->
+
+</body>
+</html>
+

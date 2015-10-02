@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+                        "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="keywords" content="Simple Linux Utility for Resource Management, SLURM, resource management,
+Linux clusters, high-performance computing">
+<meta name="description" content="Simple Linux Utility for Resource Management">
+<title>Simple Linux Utility for Resource Management</title>
+<link href="linuxstyles.css" rel="stylesheet" type="text/css">
+<link href="slurmstyles.css" rel="stylesheet" type="text/css">
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">
+  google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};  var customSearchControl = new google.search.CustomSearchControl(
+      '011890816164765777536:jvrtxrd3f0w', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.SMALL_RESULTSET);
+    customSearchControl.draw('cse');
+  }, true);
+
+function window_check ()
+{
+	obj = document.getElementById('navigation');
+	if ((window.innerWidth>=800) && (window.innerHeight>=700) &&
+	    (screen.width>=800) && (screen.height>=700)) {
+	   obj.style.position = 'fixed';
+	} else {
+	   obj.style.position = 'absolute';
+	}
+}
+
+window.onload = window_check;
+window.onresize = window_check;
+
+</script>
+
+</head>
+
+<body><div id="container"><div id="row">
+
+<div id="navigation">
+<a href="slurm.html"><img class="displayed" src="slurm_logo.png" width="130" usemap="#Map"></a>
+
+<div id="version">Version 15.08</div>
+<p></p>
+<div id="slurmh2">About</div>
+<ul>
+	  <li><a href="overview.html" class="nav">Overview</a></li>
+	  <li><a href="news.html" class="nav">What's New</a></li>
+	  <li><a href="team.html" class="nav">Slurm Team</a></li>
+	  <li><a href="meetings.html" class="nav">Meetings</a></li>
+	  <li><a href="testimonials.html" class="nav">Testimonials</a></li>
+	  <li><a href="disclaimer.html" class="nav">Legal Notices</a></li>
+</ul>
+<div id="slurmh2">Using</div>
+<ul>
+	  <li><a href="tutorials.html" class="nav">Tutorials</a></li>
+	  <li><a href="documentation.html" class="nav">Documentation</a></li>
+	  <li><a href="faq.html" class="nav">FAQ</a></li>
+	  <li><a href="publications.html" class="nav">Publications</a></li>
+</ul>
+<div id="slurmh2">Installing</div>
+<ul>
+	  <li><a href="download.html" class="nav">Download</a></li>
+	  <li><a href="quickstart_admin.html" class="nav">Installation Guide</a></li>
+</ul>
+<div id="slurmh2">Getting Help</div>
+<ul>
+	  <li><a href="http://www.schedmd.com/#services" class="nav">Support</a></li>
+	  <li><a href="mail.html" class="nav">Mailing Lists</a></li>
+	  <li><a href="http://www.schedmd.com/#services" class="nav">Training</a></li>
+	  <li><a href="troubleshoot.html" class="nav">Troubleshooting</a></li>
+</ul>
+<a href="http://www.schedmd.com"><img class="displayed" src="schedmd.png" width="130" usemap="#Map"></a>
+</div>
+
+<div id="content">
+
+<div id="cse"></div>
+
+
+<h1><a name="top">Select Plugin Design Guide</a></h1>
+
+<h2>Overview</h2>
+
+<p>The select plugin is responsible for selecting compute resources to be
+allocated to a job, plus allocating and deallocating those resources.
+The select plugin is aware of the systems topology, based upon data structures
+established by the topology plugn. It can also over-subscribe resources to
+support gang scheduling (time slicing of parallel jobs), if so configured.
+The select plugin is also capable of communicating with an external entity
+to perform these actions (the select/bluegene plugin used on an IBM BlueGene
+and the select/cray plugin used with Cray ALPS/BASIL software are two 
+examples). Other architectures would rely upon either the select/linear or
+select/cons_res plugin. The select/linear plugin allocates whole nodes to jobs
+and is the simplest implementation. The select/cons_res plugin (<i>cons_res</i>
+is an abbreviation for <i>consumable resources</i>) can allocate individual
+sockets, cores, threads, or CPUs within a node. The select/cons_res plugin
+is slightly slower than select/linear, but contains far more complex logic.</p>
+
+<h2>Mode of Operation</h2>
+
+<p>The select/linear and select/cons_res plugins have similar modes of
+operation. The obvious difference is that data structures in select/linear
+are node-centric, while those in select/cons_res contain information at a
+finer resolution (sockets, cores, threads, or CPUs depending upon the
+SelectTypeParameters configuration parameter). The description below is
+generic and applies to both plugin implementations. Note that both plugins
+are able to manage memory allocations. Both plugins are also able to manage
+generic resource (GRES) allocations, making use of the GRES plugins.</p>
+
+<p>Per node data structures include memory (configured and allocated),
+GRES (configured and allocated, in a List data structure), plus a flag
+indicating if the node has been allocated using an exclusive option (preventing
+other jobs from being allocated resources on that same node). The other key
+data structure is used to enforce the per-partition <i>Shared</i> configuration
+parameter and tracks how many jobs have been allocated each resource in each
+partition. This data structure is different between the plugins based upon
+the resolution of the resource allocation (e.g. nodes or CPUs).</p>
+
+<p>Most of the logic in the select plugin is dedicated to identifying resources
+to be allocated to a new job. Input to that function includes: a pointer to the
+new job, a bitmap identifying nodes which could be used, node counts (minimum,
+maximum, and desired), a count of how many jobs of that partition the job can
+share resources with, and a list of jobs which can be preempted to initiate the
+new job. The first phase is to determine of all usable nodes, which nodes
+would best satisfy the resource requirement. This consists of a best-fit
+algorithm that groups nodes based upon network topology (if the topology/tree
+plugin is configured) or based upon consecutive nodes (by default). Once the
+best nodes are identified, resources are accumulated for the new job until its
+resource requirements are satisfied.</p>
+
+<p>If the job can not be started with currently available resources, the plugin
+will attempt to identify jobs which can be preempted in order to initiate the
+new job. A copy of the current system state will be created including details
+about all resources and active jobs. Preemptable jobs will then be removed
+from this simulated system state until the new job can be initiated. When
+sufficient resources are available for the new job, the jobs actually needing
+to be preempted for its initiation will be preempted (this may be a subset of
+the jobs whose preemption is simulated).</p>
+
+<p>Other functions exist to support suspending jobs, resuming jobs, terminating
+jobs, expanding/shrinking job allocations, un/packing job state information,
+un/packing node state information, etc. The operation of those functions is
+relatively straightforward and not detailed here.</p>
+
+<h2>Operation on IBM BlueGene Systems</h2>
+
+<p>On IBM BlueGene systems, Slurm's <i>slurmd</i> daemon executes on the
+front-end nodes rather than the compute nodes and IBM provides a Bridge API 
+to manage compute nodes and jobs. The IBM BlueGene systems also have very 
+specific topology rules for what resources can be allocated to a job. Slurm's
+interface to IBM's Bridge API and the topology rules are found within the
+select/bluegene plugin and very little BlueGene-specific logic in Slurm is
+found outside of that plugin. Note that the select/bluegene plugin is used for
+BlueGene/L, BlueGene/P and BlueGene/Q systems with select portions of the
+code conditionally compiled depending upon the system type.</p>
+
+<h2>Operation on Cray Systems</h2>
+
+<p>The operation of the select/cray plugin is unique in that it does not
+directly select resources for a job, but uses the select/linear plugin for
+that purpose. It also interfaces with Cray's ALPS software using the BASIL
+interface or directly using the database. On Cray systems, Slurm's <i>slurmd</i>
+daemon executes on the front-end nodes rather than the compute nodes and
+ALPS is the mechanism available for Slurm to manage compute nodes and their
+jobs.</p>
+
+<pre>
+           -------------------
+           |   select/cray   |
+           -------------------
+              |           |
+-----------------   --------------
+| select/linear |   | BASIL/ALPS |
+-----------------   --------------
+</pre>
+
+<p class="footer"><a href="#top">top</a></p>
+
+<p style="text-align:center;">Last modified 31 May 2011</p>
+
+</div> <!-- closes "row" -->
+</div> <!-- closes "content" -->
+<div id="row">
+<div id="footer">
+<div id="left">&nbsp;&nbsp;<a href="disclaimer.html" target="_blank" class="privacy">Legal Notices</a></div>
+<div id="right"><span class="ucrlnum"></span></div>
+</div>
+
+<div id="footer2">
+<div style="clear:both;"></div>
+</div>
+</div> <!-- closes "row" -->
+
+</div> <!-- closes "container" -->
+
+</body>
+</html>
+

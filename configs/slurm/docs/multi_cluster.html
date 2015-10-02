@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+                        "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="keywords" content="Simple Linux Utility for Resource Management, SLURM, resource management,
+Linux clusters, high-performance computing">
+<meta name="description" content="Simple Linux Utility for Resource Management">
+<title>Simple Linux Utility for Resource Management</title>
+<link href="linuxstyles.css" rel="stylesheet" type="text/css">
+<link href="slurmstyles.css" rel="stylesheet" type="text/css">
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">
+  google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};  var customSearchControl = new google.search.CustomSearchControl(
+      '011890816164765777536:jvrtxrd3f0w', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.SMALL_RESULTSET);
+    customSearchControl.draw('cse');
+  }, true);
+
+function window_check ()
+{
+	obj = document.getElementById('navigation');
+	if ((window.innerWidth>=800) && (window.innerHeight>=700) &&
+	    (screen.width>=800) && (screen.height>=700)) {
+	   obj.style.position = 'fixed';
+	} else {
+	   obj.style.position = 'absolute';
+	}
+}
+
+window.onload = window_check;
+window.onresize = window_check;
+
+</script>
+
+</head>
+
+<body><div id="container"><div id="row">
+
+<div id="navigation">
+<a href="slurm.html"><img class="displayed" src="slurm_logo.png" width="130" usemap="#Map"></a>
+
+<div id="version">Version 15.08</div>
+<p></p>
+<div id="slurmh2">About</div>
+<ul>
+	  <li><a href="overview.html" class="nav">Overview</a></li>
+	  <li><a href="news.html" class="nav">What's New</a></li>
+	  <li><a href="team.html" class="nav">Slurm Team</a></li>
+	  <li><a href="meetings.html" class="nav">Meetings</a></li>
+	  <li><a href="testimonials.html" class="nav">Testimonials</a></li>
+	  <li><a href="disclaimer.html" class="nav">Legal Notices</a></li>
+</ul>
+<div id="slurmh2">Using</div>
+<ul>
+	  <li><a href="tutorials.html" class="nav">Tutorials</a></li>
+	  <li><a href="documentation.html" class="nav">Documentation</a></li>
+	  <li><a href="faq.html" class="nav">FAQ</a></li>
+	  <li><a href="publications.html" class="nav">Publications</a></li>
+</ul>
+<div id="slurmh2">Installing</div>
+<ul>
+	  <li><a href="download.html" class="nav">Download</a></li>
+	  <li><a href="quickstart_admin.html" class="nav">Installation Guide</a></li>
+</ul>
+<div id="slurmh2">Getting Help</div>
+<ul>
+	  <li><a href="http://www.schedmd.com/#services" class="nav">Support</a></li>
+	  <li><a href="mail.html" class="nav">Mailing Lists</a></li>
+	  <li><a href="http://www.schedmd.com/#services" class="nav">Training</a></li>
+	  <li><a href="troubleshoot.html" class="nav">Troubleshooting</a></li>
+</ul>
+<a href="http://www.schedmd.com"><img class="displayed" src="schedmd.png" width="130" usemap="#Map"></a>
+</div>
+
+<div id="content">
+
+<div id="cse"></div>
+
+
+<h1>Multi-Cluster Operation</h1>
+
+<p>A cluster is comprised of all the nodes managed by a single slurmctld
+daemon.  Slurm offers the ability to target commands to other
+clusters instead of, or in addition to, the local cluster on which the
+command is invoked.  When this behavior is enabled, users can submit
+jobs to one or many clusters and receive status from those remote
+clusters.</p>
+
+<p>For example:</p>
+
+<PRE>
+juser@dawn> squeue -M dawn,dusk
+CLUSTER: dawn
+JOBID PARTITION   NAME   USER  ST   TIME NODES BP_LIST(REASON)
+76897    pdebug  myJob  juser   R   4:10   128 dawn001[8-15]
+76898    pdebug  myJob  juser   R   4:10   128 dawn001[16-23]
+16899    pdebug  myJob  juser   R   4:10   128 dawn001[24-31]
+
+CLUSTER: dusk
+JOBID PARTITION   NAME   USER  ST   TIME NODES BP_LIST(REASON)
+11950    pdebug   aJob  juser   R   4:20   128 dusk000[0-15]
+11949    pdebug   aJob  juser   R   5:01   128 dusk000[48-63]
+11946    pdebug   aJob  juser   R   6:35   128 dusk000[32-47]
+11945    pdebug   aJob  juser   R   6:36   128 dusk000[16-31]
+</PRE>
+
+<p>The following Slurm client commands now offer the "-M, --clusters="
+option which provides the ability to communicate to and from a comma
+separated list of clusters:
+<ol><b>sacct, sbatch, scancel, scontrol, sinfo, smap, sprio, squeue,
+sshare,</b> and <b>sstrigger</b></ol>
+
+<b>salloc, srun,</b> and <b>sstat</b> are cluster specific commands
+and do not offer the "-M, --clusters=" option.</p>
+
+<p>When <b>sbatch</b> is invoked with a cluster list, Slurm will
+immediately submit the job to the cluster that offers the earliest
+start time subject its queue of pending and running jobs.  Slurm will
+make no subsequent effort to migrate the job to a different cluster
+(from the list) whose resources become available when running jobs
+finish before their scheduled end times.</p>
+
+<h2>Multi-Cluster Configuration</h2>
+<p>The multi-cluster functionality requires the use of the slurmDBD.
+The AccountingStorageType in the slurm.conf file must be set to the
+accounting_storage/slurmdbd plugin and the MUNGE or authentication
+keys must be installed to allow each cluster to communicate with the
+slurmDBD.  Note that MUNGE can be configured to use different keys for
+communications within a cluster and across clusters if desired.
+See <a href="accounting.html">accounting</a> for details.</p>
+
+<p>Once configured, Slurm commands specifying the "-M, --clusters="
+option will become active for all of the clusters listed by the
+<b>"sacctmgr show clusters"</b> command.</p>
+
+<p style="text-align:center;">Last modified 15 April 2015</p>
+
+</div> <!-- closes "row" -->
+</div> <!-- closes "content" -->
+<div id="row">
+<div id="footer">
+<div id="left">&nbsp;&nbsp;<a href="disclaimer.html" target="_blank" class="privacy">Legal Notices</a></div>
+<div id="right"><span class="ucrlnum"></span></div>
+</div>
+
+<div id="footer2">
+<div style="clear:both;"></div>
+</div>
+</div> <!-- closes "row" -->
+
+</div> <!-- closes "container" -->
+
+</body>
+</html>
+

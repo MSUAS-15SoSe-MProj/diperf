@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+                        "http://www.w3.org/TR/REC-html40/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="keywords" content="Simple Linux Utility for Resource Management, SLURM, resource management,
+Linux clusters, high-performance computing">
+<meta name="description" content="Simple Linux Utility for Resource Management">
+<title>Simple Linux Utility for Resource Management</title>
+<link href="linuxstyles.css" rel="stylesheet" type="text/css">
+<link href="slurmstyles.css" rel="stylesheet" type="text/css">
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">
+  google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+  google.setOnLoadCallback(function() {
+    var customSearchOptions = {};  var customSearchControl = new google.search.CustomSearchControl(
+      '011890816164765777536:jvrtxrd3f0w', customSearchOptions);
+    customSearchControl.setResultSetSize(google.search.Search.SMALL_RESULTSET);
+    customSearchControl.draw('cse');
+  }, true);
+
+function window_check ()
+{
+	obj = document.getElementById('navigation');
+	if ((window.innerWidth>=800) && (window.innerHeight>=700) &&
+	    (screen.width>=800) && (screen.height>=700)) {
+	   obj.style.position = 'fixed';
+	} else {
+	   obj.style.position = 'absolute';
+	}
+}
+
+window.onload = window_check;
+window.onresize = window_check;
+
+</script>
+
+</head>
+
+<body><div id="container"><div id="row">
+
+<div id="navigation">
+<a href="slurm.html"><img class="displayed" src="slurm_logo.png" width="130" usemap="#Map"></a>
+
+<div id="version">Version 15.08</div>
+<p></p>
+<div id="slurmh2">About</div>
+<ul>
+	  <li><a href="overview.html" class="nav">Overview</a></li>
+	  <li><a href="news.html" class="nav">What's New</a></li>
+	  <li><a href="team.html" class="nav">Slurm Team</a></li>
+	  <li><a href="meetings.html" class="nav">Meetings</a></li>
+	  <li><a href="testimonials.html" class="nav">Testimonials</a></li>
+	  <li><a href="disclaimer.html" class="nav">Legal Notices</a></li>
+</ul>
+<div id="slurmh2">Using</div>
+<ul>
+	  <li><a href="tutorials.html" class="nav">Tutorials</a></li>
+	  <li><a href="documentation.html" class="nav">Documentation</a></li>
+	  <li><a href="faq.html" class="nav">FAQ</a></li>
+	  <li><a href="publications.html" class="nav">Publications</a></li>
+</ul>
+<div id="slurmh2">Installing</div>
+<ul>
+	  <li><a href="download.html" class="nav">Download</a></li>
+	  <li><a href="quickstart_admin.html" class="nav">Installation Guide</a></li>
+</ul>
+<div id="slurmh2">Getting Help</div>
+<ul>
+	  <li><a href="http://www.schedmd.com/#services" class="nav">Support</a></li>
+	  <li><a href="mail.html" class="nav">Mailing Lists</a></li>
+	  <li><a href="http://www.schedmd.com/#services" class="nav">Training</a></li>
+	  <li><a href="troubleshoot.html" class="nav">Troubleshooting</a></li>
+</ul>
+<a href="http://www.schedmd.com"><img class="displayed" src="schedmd.png" width="130" usemap="#Map"></a>
+</div>
+
+<div id="content">
+
+<div id="cse"></div>
+
+
+<h1>Slurm Tutorials</h1>
+
+<h2>Slurm Workload Manager: Architecture, Configuration and Use</h2>
+<p>Introduction to the Slurm Workload Manager for users and system
+administrators, plus some material for Slurm programmers:
+<a href="http://www.open-mpi.org/video/?category=slurm">Slurm Workload Manager</a></p>
+
+<h2>Introduction to Slurm Tutorial</h2>
+<p>Introduction to the Slurm Resource Manager for users and system
+administrators. Tutorial covers Slurm architecture, daemons and commands.
+Learn how to use a basic set of commands.
+Learn how to build, configure, and install Slurm.</p>
+
+<ul>
+<li>Introduction to Slurm video on <a href="http://www.youtube.com">YouTube</a> (in eight parts)</a></li>
+<ol>
+<li><a href="http://www.youtube.com/watch?v=NH_Fb7X6Db0&feature=relmfu">Introduction to Slurm, Part 1</a></li>
+<li><a href="http://www.youtube.com/watch?v=LJrY0AthLB8&feature=relmfu">Introduction to Slurm, Part 2</a></li>
+<li><a href="http://www.youtube.com/watch?v=MI9jHavOt5o&feature=relmfu">Introduction to Slurm, Part 3</a></li>
+<li><a href="http://www.youtube.com/watch?v=aljhVYwyAoM&feature=relmfu">Introduction to Slurm, Part 4</a></li>
+<li><a href="http://www.youtube.com/watch?v=-4XFG5MoHQY&feature=relmfu">Introduction to Slurm, Part 5</a></li>
+<li><a href="http://www.youtube.com/watch?v=PAYMsuqf-CA&feature=relmfu">Introduction to Slurm, Part 6</a></li>
+<li><a href="http://www.youtube.com/watch?v=kFW0tk7aDDo&feature=relmfu">Introduction to Slurm, Part 7</a></li>
+<li><a href="http://www.youtube.com/watch?v=VozfZGZIX8w&feature=relmfu">Introduction to Slurm, Part 8</a></li>
+</ol>
+<li><a href="tutorial_slurm_intro.avi">Introduction to Slurm video</a>
+(one 330 MB file, downloading recommended rather than trying to stream the file)</li>
+<li><a href="tutorial_intro_files.tar">Tar-ball</a> with sample configuration files</li>
+</ul>
+
+<h2>Introduction to Slurm Tools</h2>
+
+<p>This video gives a basic introduction to using sbatch, squeue, scancel and
+scontrol show job on the computers at
+<a href="http://home.byu.edu">Brigham Young University</a>,
+<a href="https://marylou.byu.edu/">Fulton Supercomputing Lab</a>.<br><br>
+<a href="https://www.youtube.com/watch?v=U42qlYkzP9k&feature=player_embedded">Introduction to Slurm Tools</a>
+
+<h2>Slurm Database Usage</h2>
+<p>Slurm Resource Manager database for users and system administrators.
+Tutorial covers Slurm architecture for database use, accounting commands,
+resource limits, fair share scheduling, and accounting configuration.</p>
+
+Slurm Database Usage video on <a href="http://www.youtube.com">YouTube</a> (in two parts)</a>
+<ol>
+<li><a href="http://www.youtube.com/watch?v=8UfzXnzSmL4&feature=relmfu">Slurm Database Usage, Part 1</a></li>
+<li><a href="http://www.youtube.com/watch?v=wZrJQKRc2Vg&feature=relmfu">Slurm Database Usage, Part 2</a></li>
+</ol>
+
+<p style="text-align:center;">Last modified 10 September 2013</p>
+
+</div> <!-- closes "row" -->
+</div> <!-- closes "content" -->
+<div id="row">
+<div id="footer">
+<div id="left">&nbsp;&nbsp;<a href="disclaimer.html" target="_blank" class="privacy">Legal Notices</a></div>
+<div id="right"><span class="ucrlnum"></span></div>
+</div>
+
+<div id="footer2">
+<div style="clear:both;"></div>
+</div>
+</div> <!-- closes "row" -->
+
+</div> <!-- closes "container" -->
+
+</body>
+</html>
+
