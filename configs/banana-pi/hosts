@@ -1,12 +1,12 @@
-10.0.0.11   pi1
-10.0.0.12   pi2
-10.0.0.13   pi3
-10.0.0.14   pi4
-10.0.0.15   pi5
+10.0.0.11   pi1 pi1-docker
+10.0.0.12   pi2 pi2-docker
+10.0.0.13   pi3 pi3-docker
+10.0.0.14   pi4 pi4-docker
+10.0.0.15   pi5 pi5-docker
 
-127.0.0.1	localhost
-::1		localhost ip6-localhost ip6-loopback
-fe00::0		ip6-localnet
-ff00::0		ip6-mcastprefix
-ff02::1		ip6-allnodes
-ff02::2		ip6-allrouters
+127.0.0.1   localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0     ip6-localnet
+ff00::0     ip6-mcastprefix
+ff02::1     ip6-allnodes
+ff02::2     ip6-allrouters
