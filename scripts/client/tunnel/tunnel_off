@@ -1,0 +1,8 @@
+#!/bin/bash
+
+pids=$(ps | egrep "ssh -N -L.*10\.0\.0\.[0-9]{1,2}" | awk '{ print $1}')
+
+for pid in $pids ; do
+    echo "kill -> $pid"
+    kill -9 $pid
+done
