@@ -1,5 +1,5 @@
 #!/bin/bash
-compose=$(<$1)
+compose="$(cat -e $1 | sed 's/\\$/\\n/g')"
 
 for i in `seq 1 5`;
 do
