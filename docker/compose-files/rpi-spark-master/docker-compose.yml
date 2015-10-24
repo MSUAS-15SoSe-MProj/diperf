@@ -1,5 +1,5 @@
 rpi-spark:
-    image: marbon87/rpi-spark-master:latest
+ image: marbon87/rpi-spark-master:latest
  hostname: HOSTNAME-docker
  # privileged: true
  ports:
