@@ -1,0 +1,8 @@
+rpi-spark:
+    image: marbon87/rpi-spark-master:latest
+ hostname: HOSTNAME-docker
+ # privileged: true
+ ports:
+  - "6066:6066"
+  - "7077:7077"
+  - "8080:8080"
