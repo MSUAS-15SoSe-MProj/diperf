@@ -1,0 +1,7 @@
+rpi-spark:
+ image: marbon87/rpi-spark-slave:latest
+ hostname: HOSTNAME-docker
+# privileged: true
+ ports:
+  - "7078:7078"
+  - "8081:8081"
