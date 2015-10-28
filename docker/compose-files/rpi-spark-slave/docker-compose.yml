@@ -16,4 +16,6 @@ rpi-spark:
   - "18080:18080"
  volumes:
   - /mnt/nfs:/mnt/nfs
-
+ environment:
+  - "SPARK_WORKER_MEMORY=512M"
+  - "SPARK_DAEMON_MEMORY=512M"
