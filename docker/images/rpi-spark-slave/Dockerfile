@@ -2,7 +2,7 @@ FROM 	marbon87/rpi-spark
 MAINTAINER Mark Bonnekessel <marbon@mailbox.org>
 
 #           7078 = spark slave service, 8081 = spark web UI
-ENV         SPARK_WORK_PORT=7078
+ENV         SPARK_WORKER_PORT=7078
 EXPOSE      7078 8081
 
 ENV         SPARK_WORKER_OPTS="-Dspark.driver.port=7001 \
