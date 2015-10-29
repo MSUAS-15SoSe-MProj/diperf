@@ -16,3 +16,4 @@ rpi-spark:
   - "18080:18080"
  volumes:
   - /mnt/nfs:/mnt/nfs
+  - /etc/localtime:/etc/localtime:ro
