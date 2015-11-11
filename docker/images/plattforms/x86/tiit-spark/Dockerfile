@@ -1,4 +1,4 @@
-FROM 	moddus/rpi-base
+FROM 	mm/tiit-base
 MAINTAINER Mark Bonnekessel <marbon@mailbox.org>
 
 #       Install java: from dordoka/rpi-java8----------------------------------

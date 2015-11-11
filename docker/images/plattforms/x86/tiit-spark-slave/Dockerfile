@@ -1,4 +1,4 @@
-FROM 	moddus/rpi-spark
+FROM 	mm/tiit-spark
 MAINTAINER Mark Bonnekessel <marbon@mailbox.org>
 
 #           7078 = spark slave service, 8081 = spark web UI
